@@ -57,7 +57,7 @@ Este sistema tiene como objetivo controlar las cuentas por pagar de una determin
     </ul>
   </p>    
 
-<h1>Gif de la aplicacion en funcionamiento</h1>
+<h1>Gif de la aplicación en funcionamiento</h1>
   <p>Flujo basico del sistema, iniciando sesión,  mostrando las estadisticas y las cuentas por pagar</p>
   <img style="display: block; margin: 0 auto;" src="CapturesProject/gifProyect.gif" alt="Screenshot aplication"/>
 <br/>
@@ -75,14 +75,24 @@ Este sistema tiene como objetivo controlar las cuentas por pagar de una determin
 <h1>Screenshots de la aplicación</h1>
 
 <h3 style="display: inline; font-family: Arial">Pantalla inicial</h3>
+<p>En esta vista se muestra una pequena descripción del funcionamiento del sistema</p>
 <br/>
 <img style="display: block; margin: 0 auto;" src="CapturesProject/Capture-01.png" alt="Screenshot aplication"/>
 
 <h3 style="display: inline; font-family: Arial">Pantalla de login</h3>
+<p>Esta vista tiene como propósito controlar el acceso al sistema por parte de los usuario, gestionado las entradas de acuerdo al tipo de usuario</p>
 <br/>
 <img style="display: block; margin: 0 auto;" src="CapturesProject/Capture-02.png" alt="Screenshot aplication"/>
 
 <h3 style="display: inline; font-family: Arial">Dashboard </h3>
+<p>Esta vista tiene como propósito mostrarle al usuario las estadisticas mas solicitadas mediante graficos, dentro de estas se encuentran: </p>
+<p style="display: inline;"> 
+    <ul>
+      <li>Documentos por pagar por fecha</li>
+       <li>Los proveedores con mas balance</li>
+      <li>Los montos de los documentos por pagar</li>
+    </ul>
+ </p>
 <br/>
 <img style="display: block; margin: 0 auto;" src="CapturesProject/Screen Shot 2019-05-09 at 3.45.30 PM.png" alt="Screenshot aplication"/>
 <br/>
@@ -105,5 +115,5 @@ Este sistema tiene como objetivo controlar las cuentas por pagar de una determin
 <br/>
 <img style="display: block; margin: 0 auto;" src="CapturesProject/Screen Shot 2019-05-09 at 3.52.42 PM.png" alt="Screenshot aplication"/>
 <br/>
-
+<h3>Notas:</h3>
 <p>Estas son algunas capturas del sistema, el mismo tiene otras funcionalidas no detallas en el readme</p>
