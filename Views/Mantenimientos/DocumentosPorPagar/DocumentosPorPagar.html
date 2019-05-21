@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>dash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../../wwwroot/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <script src="../../../wwwroot/js/val.js"></script>
+</head>
+<body>
+<section id="app">
+    <Navbar contabilidadlink="Hola"></Navbar>
+    <section class="row">
+            <div class="box" style="width: 87%; margin: 0 auto;">
+                <div class="container-1 col s10">
+                    <span class="icon"><i class="fa fa-search"></i></span>
+                    <input type="search" id="search" placeholder="Search..." class="browser-default"/>
+                </div>
+                <div class="container-1 col s1">
+                    <button class="btn blue">Buscar</button>
+                </div>
+              
+                <div class="container-1 col s1">
+                        <a class="btn green modal-trigger"  v-on:click="prepareCreate" href="#create">Crear</a>
+                </div>
+           </div>
+    </section>
+
+   <br/>
+
+   <section style="width: 85%; margin: 0 auto;">
+       <div class="row">
+            <template class="col s12" style="margin-top: 50px">
+                    <h2 style="margin: 0.2px auto">Documentos por pagar</h2>
+                    <table>
+                        <thead>
+                            <th>No. Documento</th>
+                            <th>No. Factura</th>
+                            <th>Concepto Pago</th>
+                            <th>Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody v-for="(item, index) in DocumentoPorPagar">
+                            <tr>
+                                <td>{{ item.noDocumento }}</td>
+                                <td>{{ item.noFactura }}</td>
+                                <td>{{ item.conceptoPago.nombre }}</td>
+                                <td>{{ item.fecha }}</td>
+                                <td>{{ item.proveedor.identificacion }}</td>
+                                <td>{{ item.monto }}</td>
+                                <td>{{ item.estado.nombre }}</td>
+                                <td>
+                                    <a v-on:click="PrepareUpdate(item.id, index, item.noDocumento, item.monto , item.noFactura, item.idConceptoPago, item.idProveedor, item.idEstado)" class="btn-floating btn-large waves-effect waves-light blue modal-trigger" href="#actualizar"><i class="material-icons">edit</i></a>
+                                    <button v-on:click="Delete(item.id, index)" id="remove" class="remove btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></button> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </template>
+       </div>
+
+        <!-- Modal Create -->
+        <div id="create" class="modal card-inf" style="padding: 30px;">
+            <div class="progress" style="background: rgba(5, 5, 5, 0.2)">
+                <div class="indeterminate  light-blue darken-4"></div>
+            </div>
+            <div class="container" style="padding: 10px;">
+                <h4>Crear Concepto de pago</h4>
+                            
+                <div class="input-field col s12">
+                    <input v-model="NoFactura" id="last_name" value=" " type="text" class="validate only-number">
+                    <label for="No_Factura">No. Factura</label>
+                </div>
+
+                <label for="Estado" style="font-size: 18px; margin-bottom: 10px;">Concepto de pago</label>
+
+                <select class="browser-default" v-model="IdConceptoPago">
+                    <option value="0">--- Seleccione una opcion ---</option>
+                    <option v-for="(item, index) in ConceptoPago" v-bind:value="item.id">{{ item.nombre }}</option>
+                </select>
+
+                <div class="input-field col s12">
+                    <input type="date" v-model="Fecha" id="last_name"  type="text" class="only-number">
+                </div>
+
+                <div class="input-field col s12">
+                    <input v-model="Monto" id="last_name" value=" " type="text" class="validate only-number">
+                    <label for="Monto">Monto</label>
+                </div>
+
+                <label for="Estado" style="font-size: 18px; margin-bottom: 10px;">Proveedor</label>
+
+                <select class="browser-default" v-model="IdProveedor">
+                        <option value="0">--- Seleccione una opcion ---</option>
+                        <option v-for="(item, index) in Proveedores" v-bind:value="item.id">{{ item.nombre }}</option>
+                </select>
+                
+                <label for="Estado" style="font-size: 18px; margin-bottom: 10px;">Estado</label>
+
+                <select class="browser-default" v-model="IdEstado">
+                    <option value="0">--- Seleccione una opcion ---</option>
+                    <option v-for="(item, index) in Estados" v-bind:value="item.id">{{ item.nombre }}</option>
+                </select>
+
+                <div class="input-field col s12">
+                    <button v-on:click="Create" id="Create" class="btn blue" style="width: 100%; padding: 10px; height: 50px;"> Crear </button>
+                </div>
+                <br/>
+            </div>
+        </div>
+
+        <!-- Modal Update -->
+        <div id="actualizar" class="modal card-inf" style="padding: 30px;">
+            <div class="progress" style="background: rgba(5, 5, 5, 0.2)">
+                <div class="indeterminate  light-blue darken-4"></div>
+            </div>
+            <div class="container" style="padding: 10px;">
+                <h4>Actualizar Documento Por Pagar</h4>
+
+                <label>No. Documento</label>
+
+                <div class="input-field col s12">
+                    <input id="last_name" v-model="NoDocumento" type="text" value="{{NoDocumento}} " class="validate">
+                </div>
+    
+                <label>No. Factura</label>
+
+                <div class="input-field col s12">
+                    <input v-model="NoFactura" id="last_name" value="{{NoFactura}} " type="text" class="validate">
+                </div>
+    
+                <label for="Estado" style="font-size: 18px; margin-bottom: 10px;">Concepto de pago</label>
+    
+                <select class="browser-default" v-model="IdConceptoPago">
+                    <option v-for="(item, index) in ConceptoPago" v-bind:value="item.id">{{ item.nombre }}</option>
+                </select>
+    
+                <label>Fecha</label>
+
+                <div class="input-field col s12">
+                    <input type="date" v-model="Fecha" id="last_name"  type="text" class="only-number">
+                </div>
+    
+                <label>Monto</label>
+
+                <div class="input-field col s12">
+                    <input v-model="Monto" id="last_name" value="{{Monto}}" type="text" class="validate only-number">
+                </div>
+    
+                <label for="Estado">Proveedor</label>
+    
+                <select class="browser-default" v-model="IdProveedor">
+                    <option v-for="(item, index) in Proveedores" v-bind:value="item.id">{{ item.nombre }}</option>
+                </select>
+                    
+                <label for="Estado">Estado</label>
+    
+                <select class="browser-default" v-model="IdEstado">
+                    <option v-for="(item, index) in Estados" v-bind:value="item.id">{{ item.nombre }}</option>
+                </select>
+                            
+                <div class="input-field col s12">
+                    <button v-on:click="Update" id="Update" class="btn blue" style="width: 100%; padding: 10px; height: 50px;"> Actualizar </button>
+                </div>
+            </div>
+        </div>
+   </section>
+
+</section>
+    <style>
+        body{
+            background: #fafafa;
+        }
+
+        .button{
+            background: rgba(57, 119, 255, 0.829);
+            border-radius: 30px;
+            color: white !important;
+            margin-bottom: 20px;
+            -webkit-box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+            box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../../../wwwroot/js/main.js"></script>
+    <script src="../../../wwwroot/js/validations.js"></script>
+    
+    <script type="text/javascript">
+            var url = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/DocumentoPorPagar';
+            var urlProveedor = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/Proveedor';
+            var urlConceptoPago = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/ConceptoPago'
+            var urlEstado = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/Estado';
+            var urlTipoPerson = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/TipoPersona';
+
+            new Vue({
+                el: '#app',
+                data: {
+                    header: {headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}},
+                    index: 0,
+                    id: 0,
+                    NoDocumento: '',
+                    NoFactura: '',
+                    Fecha: '',
+                    DocumentoPorPagar: [],
+                    ConceptoPago: [],
+                    IdConceptoPago: 0,
+                    IdProveedor: 0,
+                    Proveedores: [],
+                    TipoPersonas: [],
+                    IdTipoPersona: 0,
+                    Estados: [],
+                    Monto: 0,
+                    IdEstado: 0
+                },
+                watch: {
+                    modalGeneral: function () {
+                      //  this.getProveedor();
+                    }
+                },
+                mounted(){
+                    //this.getProveedor();
+                    this.getDocumentosPorPagar();
+                    this.activeNav();
+                    this.getEstado();
+                    this.getConceptoPago();
+                    this.getProvedores();
+                },
+                methods:{
+                    getDocumentosPorPagar(){
+                        axios.get(url, this.header).then(response =>{
+                            this.DocumentoPorPagar = response.data;
+                            console.log(response.data);
+                            this.Load(false);
+                        });
+                    },
+                    prepareCreate: function(){
+                        this.id = '';
+                        this.NoDocumento = '';
+                        this.IdConceptoPago = 0;
+                        this.IdProveedor = 0;
+                        this.IdTipoPersona = 0;
+                        this.Monto = null;
+                        this.NoFactura = '';
+                    },
+                    Create: function(e){
+                        this.Load(true);
+                        this.disableControles("Create",true);
+                        if(this.NoFactura === "" || this.Fecha === "" || this.IdProveedor === "" || this.IdTipoPersona === "" || this.Monto === ""){
+                            M.toast({html: `Todos los campos son requeridos`, classes: 'rounded red darken-2'});
+                            this.Load(false);
+                            this.disableControles("Create",false);
+                        }else{
+                            console.log(this.NoDocumento, this.NoFactura, this.IdConceptoPago, this.Fecha, this.Monto, this.Fecha, this.IdProveedor, this.IdEstado)
+                          
+                            axios.post(url, {
+                                NoDocumento: this.NoDocumento,
+                                NoFactura: this.NoFactura,
+                                IdConceptoPago: this.IdConceptoPago,
+                                Fecha: this.Fecha,
+                                Monto: this.Monto,
+                                IdProveedor: this.IdProveedor,
+                                IdEstado: this.IdEstado
+                            }, this.header).then(response => {
+                                M.toast({html: `Documento por pagar ${response.data.noDocumento} creado`, classes: 'rounded green darken-2'});
+                                this.Load(false);
+                                this.disableControles("Create",false);
+
+                                this.DocumentoPorPagar.push(response.data);
+
+                            axios.post("https://prjaccounting20190327125427.azurewebsites.net/api/accounting/post", {
+                                        auxiliar: "6",
+                                        moneda: "DOP",
+                                        descripcion: `Documento por pagar ${response.data.noDocumento} generado el ${response.data.fecha}`,
+                                        detalle: [
+                                        {
+                                            "numero_cuenta": "82",
+                                            "tipo_transaccion": "CR",
+                                            "monto": response.data.monto
+                                        },
+                                        {
+                                            "numero_cuenta": "6",
+                                            "tipo_transaccion": "DB",
+                                            "monto": response.data.monto
+                                        }]
+
+                                    }).then(response => {
+                                      if(response.data.resultado === "Ok")
+                                      {
+                                        M.toast({html: `Acciento creado`, classes: 'rounded green darken-2'});
+                                        this.Load(false);
+                                        this.disableControles("Create",false);
+
+                                      }else{
+                                        M.toast({html: `Ocurrio un error`, classes: 'rounded red darken-2'});
+                                      }
+                                    })
+                                    .catch(response=> {
+                                        M.toast({html: `Ocurrio un error`, classes: 'rounded red darken-2'});
+                                        this.Load(false);
+                                        this.disableControles("Create",false);
+                                    });
+                            })
+                            .catch(response=> {
+                                M.toast({html: `Ocurrio un error`, classes: 'rounded red darken-2'});
+                                this.Load(false);
+                                this.disableControles("Create",false);
+                            });
+                        }
+                    },
+                    Delete: function(id, index){
+                        this.Load(true);
+                        axios.delete(`${url}/${id}`, this.header, {
+                        data: {  }
+                        }).then(response =>{
+                            if(response){
+                                this.DocumentoPorPagar.splice(index, 1);
+                                M.toast({html: `Documento por pagar eliminado`, classes: 'rounded green darken-2'});
+                                this.Load(false);
+                                $(`.remove`).prop('disabled', false);
+                            }else{
+                                M.toast({html: `Documento por pagar no eliminado`, classes: 'rounded red darken-2'});
+                            }
+                        });
+                    },
+                    PrepareUpdate: function(id, index, noDocumento, monto, noFactura, idConceptoPago, idProveedor, idEstado){
+                        this.index = index;
+                        this.id = id;
+                        this.NoDocumento  = noDocumento;
+                        this.Monto = monto;
+                        this.NoFactura = noFactura;
+                        this.IdConceptoPago = idConceptoPago;
+                        this.IdProveedor = idProveedor;
+                        this.IdEstado = idEstado;
+                        console.log(idEstado);
+                    },
+                    Update: function(){
+                        this.Load(true);
+                        this.disableControles("Update",true);
+                        if(this.noDocumento === "" || this.NoDocumento === "" || this.NoFactura === "" || this.IdConceptoPago === "" || this.Monto === "" || this.IdProveedor === "" || this.IdEstado === ""){
+                            M.toast({html: `Todos los campos son requeridos`, classes: 'rounded red darken-2'});
+                            this.Load(false);
+                            this.disableControles("Create",false);
+                        }else{
+                            axios({
+                                method: 'put',
+                                url: url,
+                                data: {
+                                    id: this.id,
+                                    NoDocumento: this.NoDocumento,
+                                    NoFactura: this.NoFactura,
+                                    IdConceptoPago: this.IdConceptoPago,
+                                    Monto: this.Monto,
+                                    IdProveedor: this.IdProveedor,
+                                    IdEstado: this.IdEstado
+                                }, 
+                                headers: {
+                                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                                }
+                            }).then(response => {
+                                if(response){
+                                    M.toast({html: `Documento por pagar actualizado`, classes: 'rounded green darken-2'});
+                                    this.Load(false);
+
+                                    this.DocumentoPorPagar[this.index].noDocumento = response.data.noDocumento;
+                                    this.DocumentoPorPagar[this.index].noFactura = response.data.noFactura;
+                                    this.DocumentoPorPagar[this.index].idConceptoPago = response.data.idConceptoPago;
+                                    this.DocumentoPorPagar[this.index].fecha = response.data.fecha;
+                                    this.DocumentoPorPagar[this.index].monto = response.data.monto;
+                                    this.DocumentoPorPagar[this.index].idProveedor = response.data.idProveedor;
+                                    this.DocumentoPorPagar[this.index].estado.nombre = response.data.estado.nombre;
+                                    this.disableControles("Update",false);
+                                }else{
+                                    M.toast({html: `Documentos por pagar no actualizado`, classes: 'rounded red darken-2'});
+                                    this.disableControles("Update",false);
+                                }
+                            }).catch(response => {
+                                M.toast({html: `Documentos por pagar no actualizado`, classes: 'rounded red darken-2'});
+                                this.disableControles("Update",false);
+                            });
+                        }
+                    },
+                    getEstado(){
+                        axios.get(urlEstado, this.header).then(response =>{
+                            this.Estados = response.data;
+                            console.log(response.data);
+                            this.Load(false);
+                        });
+                    },
+                    getTipoPersona(){
+                        axios.get(urlTipoPerson, this.header).then(response =>{
+                            this.TipoPersonas = response.data;
+                            console.log(response.data);
+                            this.Load(false);
+                        });
+                    },
+                    getConceptoPago(){
+                        axios.get(urlConceptoPago, this.header).then(response =>{
+                            this.ConceptoPago = response.data;
+                            console.log(response.data);
+                            this.Load(false);
+                        });
+                    },
+                    getProvedores(){
+                        axios.get(urlProveedor, this.header).then(response =>{
+                            this.Proveedores = response.data;
+                            console.log(response.data);
+                            this.Load(false);
+                        });
+                    },
+                    Load: function(active){
+                        if(active){
+                            $(".progress").css({'display': 'block'});
+                        }else{
+                            $(".progress").css({'display': 'none'});
+                        }
+                    },
+                    activeNav: function () {
+                        $('.sidenav').sidenav();
+                        $('.tabs').tabs();
+                        $('.datepicker').datepicker();
+                    },
+                    disableControles: function(Id,active){
+                        if(active){
+                            $(`#${Id}`).prop('disabled', true);
+                        }else{
+                            $(`#${Id}`).prop('disabled', false);
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <script>
+          $(document).on('click', '#remove', function (event) { 
+                event.preventDefault();
+                $(`.remove`).prop('disabled', true);
+            });
+        </script>
+
+         <script>
+                $(document).ready(function(){
+                  $('.sidenav').sidenav();
+                  $('.tabs').tabs();
+                  $('.modal').modal();
+                  $('.datepicker').datepicker("");
+                });    
+        </script>
+</body>
+</html>

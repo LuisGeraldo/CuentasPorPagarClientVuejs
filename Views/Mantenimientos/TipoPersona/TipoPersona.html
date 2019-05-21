@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>dash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../../wwwroot/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <script src="../../../wwwroot/js/val.js"></script>
+</head>
+<body>
+<section id="app">
+    <Navbar></Navbar>
+    <section class="row">
+            <div class="box" style="width: 87%; margin: 0 auto;">
+                <div class="container-1 col s10">
+                    <span class="icon"><i class="fa fa-search"></i></span>
+                    <input type="search" id="search" placeholder="Search..." class="browser-default"/>
+                </div>
+                <div class="container-1 col s1">
+                    <button class="btn blue">Buscar</button>
+                </div>
+
+                <div class="container-1 col s1">
+                        <a class="btn green modal-trigger"  v-on:click="prepareCreate" href="#create">Crear</a>
+                </div>
+           </div>
+    </section>
+
+   <br/>
+
+   <section style="width: 85%; margin: 0 auto;">
+       <div class="row">
+            <template class="col s12" style="margin-top: 50px">
+                    <h2 style="margin: 0.2px auto">Tipos de personas</h2>
+                    <table>
+                        <thead>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody v-for="(item, index) in TipoPersona">
+                            <tr>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.descripcion }}</td>
+                                <td>
+                                    <a v-on:click="PrepareUpdate(item.id, index, item.nombre, item.descripcion)" class="btn-floating btn-large waves-effect waves-light blue modal-trigger" href="#actualizar"><i class="material-icons">edit</i></a>
+                                    <button v-on:click="Delete(item.id, index)" id="remove" class="remove btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </template>
+       </div>
+
+        <!-- Modal Create -->
+        <div id="create" class="modal card-inf" style="padding: 30px;">
+            <div class="progress" style="background: rgba(5, 5, 5, 0.2)">
+                <div class="indeterminate  light-blue darken-4"></div>
+            </div>
+            <div class="container" style="padding: 10px;">
+                <h4>Crear tipo de persona</h4>
+                            
+                <div class="input-field col s12">
+                    <input id="last_name" v-model="nombre" type="text" value=" " class="validate only-letter">
+                    <label for="last_name" >Nombre</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <input v-model="descripcion" id="last_name" value=" " type="text" class="validate">
+                    <label for="last_name">Descripcion</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <button v-on:click="Create" id="Create" class="btn blue" style="width: 100%; padding: 10px; height: 50px;"> Crear </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Update -->
+        <div id="actualizar" class="modal card-inf" style="padding: 30px;">
+            <div class="progress" style="background: rgba(5, 5, 5, 0.2)">
+                <div class="indeterminate  light-blue darken-4"></div>
+            </div>
+            <div class="container" style="padding: 10px;">
+                <h4>Actualizar tipo de persona</h4>
+                            
+                <div class="input-field col s12">
+                    <input id="last_name" v-model="nombre" type="text" value="{{ nombre }}" class="validate only-letter">
+                </div>
+
+                <div class="input-field col s12">
+                    <input v-model="descripcion" id="last_name" value="{{ descripcion }}" type="text" class="validate">
+                </div>
+
+                <div class="input-field col s12">
+                    <button v-on:click="Update" id="Update" class="btn blue" style="width: 100%; padding: 10px; height: 50px;"> Actualizar </button>
+                </div>
+            </div>
+        </div>
+   </section>
+
+</section>
+    <style>
+        body{
+            background: #fafafa;
+        }
+
+        .button{
+            background: rgba(57, 119, 255, 0.829);
+            border-radius: 30px;
+            color: white !important;
+            margin-bottom: 20px;
+            -webkit-box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+            box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../../../wwwroot/js/main.js"></script>
+    <script src="../../../wwwroot/js/validations.js"></script>
+    
+    <script type="text/javascript">
+            var url = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/TipoPersona';
+            
+            new Vue({
+                el: '#app',
+                data: {
+                    header: {headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}},
+                    index: 0,
+                    id: 0,
+                    nombre: '',
+                    descripcion: '',
+                    TipoPersona: []
+                },
+                watch: {
+                    modalGeneral: function () {
+                        this.getTipoPersona();
+                    }
+                },
+                mounted(){
+                    this.getTipoPersona();
+                    this.activeNav();
+                },
+                methods:{
+                    getTipoPersona(){
+                        axios.get(url, this.header).then(response =>{
+                            this.TipoPersona = response.data;
+                            this.Load(false);
+                        });
+                    },
+                    prepareCreate: function(){
+                        this.id = '';
+                        this.nombre = '';
+                        this.descripcion = ''
+                    },
+                    Create: function(e){
+                        this.Load(true);
+                        this.disableControles("Create",true);
+                        if(this.nombre === "" || this.descripcion === ""){
+                            M.toast({html: `Todos los campos son requeridos`, classes: 'rounded red darken-2'});
+                            this.Load(false);
+                            this.disableControles("Create",false);
+                        }else{
+                            axios.post(url, {
+                                Nombre: this.nombre,
+                                Descripcion: this.descripcion
+                            }, this.header).then(response => {
+                                M.toast({html: `Tipo persona ${response.data.nombre} creado`, classes: 'rounded green darken-2'});
+                                this.Load(false);
+                                this.disableControles("Create",false);
+
+                                this.TipoPersona.push({
+                                    id: response.data.id,
+                                    nombre: response.data.nombre,
+                                    descripcion: response.data.descripcion
+                                });
+
+                                this.nombre = '';
+                                this.descripcion = '';
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                this.Load(false);
+                                this.disableControles("Create",false);
+                            });
+                        }
+                    },
+                    Delete: function(id, index){
+                        this.Load(true);
+                        axios.delete(`${url}/${id}`, this.header,  {
+                        data: {  }
+                        }).then(response =>{
+                            if(response){
+                                this.TipoPersona.splice(index, 1);
+                                M.toast({html: `Tipo de persona eliminada`, classes: 'rounded green darken-2'});
+                                this.Load(false);
+                                $(`.remove`).prop('disabled', false);
+                            }else{
+                                M.toast({html: `Tipo de persona no eliminado`, classes: 'rounded red darken-2'});
+                            }
+                        });
+                    },
+                    PrepareUpdate: function(id, index, nombre, descripcion){
+                        this.index = index;
+                        this.id = id;
+                        this.nombre  = nombre;
+                        this.descripcion = descripcion;
+                    },
+                    Update: function(){
+                        this.Load(true);
+                        this.disableControles("Update",true);
+                        if(this.nombre === "" || this.descripcion === ""){
+                            M.toast({html: `Todos los campos son requeridos`, classes: 'rounded red darken-2'});
+                            this.Load(false);
+                            this.disableControles("Update",false);
+                        }else{
+                            axios({
+                                method: 'put',
+                                url: url,
+                                data: {
+                                    id: this.id,
+                                    nombre: this.nombre,
+                                    descripcion: this.descripcion
+                                }, 
+                                headers: {
+                                   Authorization: `Bearer ${localStorage.getItem("token")}`
+                                },
+                            }).then(response => {
+                                if(response){
+                                    M.toast({html: `Tipo de persona actualizado`, classes: 'rounded green darken-2'});
+                                    this.Load(false);
+                                    this.TipoPersona[this.index].nombre = response.data.nombre;
+                                    this.TipoPersona[this.index].descripcion = response.data.descripcion;
+                                    this.disableControles("Update",false);
+                                }else{
+                                    M.toast({html: `Tipo de persona no actualizado`, classes: 'rounded red darken-2'});
+                                    this.disableControles("Update",false);
+                                }
+                            });
+                        }
+                    },
+                    Load: function(active){
+                        if(active){
+                            $(".progress").css({'display': 'block'});
+                        }else{
+                            $(".progress").css({'display': 'none'});
+                        }
+                    },
+                    activeNav: function () {
+                        $('.sidenav').sidenav();
+                        $('.tabs').tabs();
+                    },
+                    disableControles: function(Id,active){
+                        if(active){
+                            $(`#${Id}`).prop('disabled', true);
+                        }else{
+                            $(`#${Id}`).prop('disabled', false);
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <script>
+          $(document).on('click', '#remove', function (event) { 
+                event.preventDefault();
+                $(`.remove`).prop('disabled', true);
+            });
+        </script>
+
+         <script>
+                $(document).ready(function(){
+                  $('.sidenav').sidenav();
+                  $('.tabs').tabs();
+                  $('.modal').modal();
+                });    
+        </script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>dash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../../wwwroot/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"/>
+    <script src="../../../wwwroot/js/val.js"></script>
+</head>
+<body>
+<section id="app">
+    <Navbar></Navbar>
+    <div style="margin: 0 auto; width: 95%;">
+        <section class="row" style="margin: 0 auto;">
+            <div style="margin: 0 auto">
+                <section class="col s3" style="border-radius: 30px !important;">
+                 <div class="row card card-dash">
+                    <div class="card-dash-header" style="background: #0F62AD;">
+                        <div class="row">
+                            <div class="col s2">
+                                <img src="../../../wwwroot/img/article.png" />
+                            </div>
+                            <div class="col s10" style="margin: 15px auto">
+                                <h1>Documentos</h1>
+                                <h4>Pendientes, pagados</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-dash-content">
+                        <a href="../DocumentosPorPagar/DocumentosPorPagar.html">Ver detalle</a>
+                        <img src="../../../wwwroot/img/more.png" />
+                   </div>
+                 </div>
+            </section>
+
+            <section class="col s3" style="border-radius: 30px !important;">
+                    <div class="row card card-dash">
+                       <div class="card-dash-header" style="background: #740543;">
+                           <div class="row">
+                               <div class="col s2">
+                                   <img src="../../../wwwroot/img/support.png" />
+                               </div>
+                               <div class="col s10" style="margin: 15px auto">
+                                   <h1>Proveedores</h1>
+                                   <h4>Activos, Inactivos</h4>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="card-dash-content">
+                           <a href="../Proveedor/Proveedor.html">Ver detalle</a>
+                           <img src="../../../wwwroot/img/more.png" />
+                      </div>
+                    </div>
+            </section>
+
+               
+            <section class="col s3" style="border-radius: 30px !important;">
+                    <div class="row card card-dash">
+                       <div class="card-dash-header" style="background: #EAB100;">
+                           <div class="row">
+                               <div class="col s2">
+                                   <img src="../../../wwwroot/img/article.png" />
+                               </div>
+                               <div class="col s10" style="margin: 15px auto">
+                                   <h1>Estados</h1>
+                                   <h4>Documentos, proveedores</h4>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="card-dash-content">
+                           <a href="../Estado/index.html">Ver detalle</a>
+                           <img src="../../../wwwroot/img/more.png" />
+                      </div>
+                    </div>
+            </section>
+
+            <section class="col s3" style="border-radius: 30px !important;">
+                <div class="row card card-dash">
+                    <div class="card-dash-header" style="background: #45D801;">
+                        <div class="row">
+                            <div class="col s2">
+                                <img src="../../../wwwroot/img/ventas.png" />
+                            </div>
+                            <div class="col s10" style="margin: 15px auto">
+                                <h1>Conceptos</h1>
+                                <h4>Pagos, deudas</h4>
+                            </div>
+                           </div>
+                       </div>
+                       <div class="card-dash-content">
+                           <a href="../ConceptoPago/ConceptoPago.html">Ver detalle</a>
+                           <img src="../../../wwwroot/img/more.png" />
+                      </div>
+                    </div>
+            </section>
+            </div>
+
+
+            <div class="col s6">
+                <div class="card" style="margin: 10px 0px 10px 0px;">
+                    <h3>Documentos por pagar</h3>
+                    <p>Documentos por pagar por fecha</p>
+                    <div id="Lineal-grafica" style="height: 250px;"></div>
+                </div>
+            </div>
+
+            <div class="col s6">
+                <div class="card" style="margin: 10px 0px 10px 0px;">
+                    <h3>Proveedores</h3>
+                    <p>Proveedores con mas balance</p> 
+                    <div id="donut-example" style="height: 250px;"></div>
+                </div>
+            </div>
+
+            <div class="col s12">
+                <div class="card" style="margin: 10px 0px 10px 0px;">
+                    <h3>Montos</h3> 
+                    <p>Documentos por pagar por numero de documentos</p>
+                    <div id="barra-grafico" style="height: 250px;"></div>
+                </div>
+            </div>     
+        </section>
+    </div>
+   </section> 
+
+</section>
+    <style>
+        body{
+            background: #fafafa;
+        }
+
+        .button{
+            background: rgba(57, 119, 255, 0.829);
+            border-radius: 30px;
+            color: white !important;
+            margin-bottom: 20px;
+            -webkit-box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+            box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../../../wwwroot/js/main.js"></script>
+    <script src="../../../wwwroot/js/validations.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    
+    <script type="text/javascript">
+            var url = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/DocumentoPorPagar';
+            var urlProveedor = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/Proveedor';
+            var urlConceptoPago = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/ConceptoPago'
+            var urlEstado = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/Estado';
+            var urlTipoPerson = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/TipoPersona';
+
+            new Vue({
+                el: '#app',
+                data: {
+                    header: {headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}},
+                    IdConceptoPago: 0,
+                    IdProveedor: 0,
+                    Proveedores: [],
+                    data: [], 
+                    DotGraf: [],
+                    LinealGraf: []
+                },
+                watch: {
+                    modalGeneral: function () {
+                    }
+                },
+                mounted(){
+                    this.getDocumentosPorPagar();
+                    this.activeNav();
+                    this.getProvedores();
+                    
+                },
+                methods:{
+                    getDocumentosPorPagar(){
+                        axios.get(url, this.header).then(response =>{
+
+                             response.data.forEach((element, index) => {
+                                 this.data[index] = {
+                                     id: element.id,
+                                     noDocumento: element.noDocumento,
+                                     monto: element.monto,
+                                     estado: element.estado.nombre
+                                 }
+
+                                 this.LinealGraf[index] ={
+                                     year: element.fecha,
+                                     value: element.monto
+                                 }
+                             });
+
+
+                            Morris.Bar({
+                                element: 'barra-grafico',
+                                data: this.data,
+                                xkey: ['noDocumento'],
+                                ykeys: ['monto'],
+                                labels: ['Monto']
+                            });
+
+                            new Morris.Line({
+                                element: 'Lineal-grafica',
+                                data: this.LinealGraf,
+                                xkey: 'year',
+                                ykeys: ['value'],
+                                labels: ['Monto']
+                            });
+                    
+                            this.Load(false);
+                        });
+                    },
+                    getProvedores(){
+                        axios.get(urlProveedor, this.header).then(response =>{
+                            response.data.forEach((element, index) => {
+                                this.Proveedores[index] = {
+                                    label: element.identificacion,
+                                    value: element.balance
+                                }
+                            });
+
+
+                            Morris.Donut({
+                                element: 'donut-example',
+                                data: this.Proveedores
+                            });
+
+                            console.log(response.data);
+                            this.Load(false);
+                        });
+                    },
+                    Load: function(active){
+                        if(active){
+                            $(".progress").css({'display': 'block'});
+                        }else{
+                            $(".progress").css({'display': 'none'});
+                        }
+                    },
+                    activeNav: function () {
+                        $('.sidenav').sidenav();
+                        $('.tabs').tabs();
+                        $('.datepicker').datepicker();
+                    },
+                    disableControles: function(Id,active){
+                        if(active){
+                            $(`#${Id}`).prop('disabled', true);
+                        }else{
+                            $(`#${Id}`).prop('disabled', false);
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <script>
+          $(document).on('click', '#remove', function (event) { 
+                event.preventDefault();
+                $(`.remove`).prop('disabled', true);
+            });
+        </script>
+
+         <script>
+                $(document).ready(function(){
+                  $('.sidenav').sidenav();
+                  $('.tabs').tabs();
+                  $('.modal').modal();
+                });    
+        </script>
+</body>
+</html>

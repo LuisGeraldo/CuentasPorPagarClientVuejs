@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+
+body{
+    font-family: sans-serif !important;
+}
+.btn-iniciar{
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+    font-weight: bold;
+    width: 240px;
+    padding: 10px;
+    background: cornflowerblue;
+    text-align: center;
+    border-radius: 5px;
+    color:white;
+    font-family: sans-serif;
+}
+
+.information-system {
+    font-family: sans-serif;
+    margin-top: 100px !important;
+    text-align: center;
+    padding: 8px;
+}
+
+.information-system h4{
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 30px !important;
+    display: block;
+}
+
+.information-system p{
+    color: #858585;
+    font-size: 17px;
+    font-family: sans-serif;
+}
+
+.input-field label{
+    font-size: 20px !important;
+    color: rgba(5, 5, 5, 0.548) !important;
+    font-weight: 10px !important;
+}
+
+.input-field input{
+    border-bottom: 0.6px solid #8585858c !important;
+}
+
+.input-area{
+    margin: 20px !important;
+}
+
+.btn-sessionInit{
+    display: block;
+    background: none;
+    border: 0.5px solid rgba(16, 100, 255, 0.829);
+    padding: 10px;
+    width: 180px;
+    border-radius: 20px;
+    color: rgba(3, 82, 228, 0.829);
+    margin-top: 30px;
+    font-family: sans-serif !important;
+    font-size: 16px;
+}
+
+.filled-in{
+    background: cornflowerblue !important;
+}
+
+h1{
+    font-family: sans-serif;
+    font-size: 60px !important;
+    font-weight: 50px !important;
+}
+
+
+.linked{
+    text-align: center;
+    width: 300px;
+    display: block;
+    font-size: 20px;
+    text-decoration: none;
+    background: rgba(16, 100, 255, 0.829);
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.footer{
+    width: 50%; 
+    text-align: center; 
+    margin: 0 auto; 
+    margin-top: 40px !important
+}
+
+.nav-app{
+    height: 140px !important;
+    background: -moz-linear-gradient(left, rgba(0,24,46,1) 0%, rgba(0,24,46,0.99) 3%, rgba(0,12,23,0.83) 58%, rgba(0,18,36,0.75) 82%, rgba(0,7,15,0.7) 100%);
+    background: -webkit-linear-gradient(left, rgba(0,24,46,1) 0%, rgba(0,24,46,0.99) 3%, rgba(0,12,23,0.83) 58%, rgba(0,18,36,0.75) 82%, rgba(0,7,15,0.7) 100%);
+    background: -o-linear-gradient(left, rgba(0,24,46,1) 0%, rgba(0,24,46,0.99) 3%, rgba(0,12,23,0.83) 58%, rgba(0,18,36,0.75) 82%, rgba(0,7,15,0.7) 100%);
+    background: -ms-linear-gradient(left, rgba(0,24,46,1) 0%, rgba(0,24,46,0.99) 3%, rgba(0,12,23,0.83) 58%, rgba(0,18,36,0.75) 82%, rgba(0,7,15,0.7) 100%);
+    background: linear-gradient(to right, rgba(0,24,46,1) 0%, rgba(0,24,46,0.99) 3%, rgba(0,12,23,0.83) 58%, rgba(0,18,36,0.75) 82%, rgba(0,7,15,0.7) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00182e', endColorstr='#00070f', GradientType=1 );
+}
+
+.search{
+    width: 160px !important;
+    background: #ffffff73 !important;
+    padding-left: 30px !important;
+    height: 40px !important;
+    color: white;
+}
+
+.card-inf{
+    border: 0;
+    border-radius: .1875rem;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+    box-shadow: 0 1px 15px 1px rgba(39,39,39,.1);
+    background-color: #fff;
+}
+
+.container-1{
+    margin-top: 10px;
+    width: 300px;
+    vertical-align: middle;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .container-1 input#search{
+    width: 100%;
+    height: 40px;
+    background: #bbbbbb6b;
+    border: none;
+    font-size: 10pt;
+    float: left;
+    color: #63717f;
+    padding-left: 45px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+  .container-1 input#search::-webkit-input-placeholder {
+    color: #ffffff;
+ }
+  
+ .container-1 input#search:-moz-placeholder { /* Firefox 18- */
+    color: #65737e;  
+ }
+  
+ .container-1 input#search::-moz-placeholder {  /* Firefox 19+ */
+    color: #65737e;  
+ }
+  
+ .container-1 input#search:-ms-input-placeholder {  
+    color: #65737e;  
+ }
+
+ /* Dash */
+
+ .card-dash {
+    background: white;
+    padding: 0;
+    margin: -50px 0px 20px -10px !important;
+    border-radius: 20px !important;
+}
+
+.card-dash-header {
+    display: block; 
+    padding: 20px; 
+    border-radius: 20px 20px 0 0;
+}
+
+.card-dash-header img{
+    margin: 15px auto; 
+    text-align: center;
+}
+
+.card-dash h1 {
+    font-size: 30px !important; 
+    font-weight: bold; 
+    color: white; 
+    text-align: end; 
+    display: block; 
+    padding: 0; 
+    margin: 0;
+}
+
+.card-dash h4 {
+    font-size: 15px !important; 
+    text-align: end; 
+    color: white; 
+    font-weight: 100;  
+    display: block; margin: 10px;
+}
+
+.card-dash img {
+    width: 70px;
+}
+
+.card-dash-content {
+    display: block; 
+    padding: 15px;
+}
+
+.card-dash-content img{
+    float: right; 
+    width: 25px;
+}
+
+.grafic-banner-max {
+    margin-top: 20px; 
+    padding: 0; 
+    background: white; 
+    border-radius: 20px;
+}
+
+.grafic-banner-header-max {
+    background: #0F62AD;
+    margin: 0 !important;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+}
+
+.grafic-banner-header-max h1 {
+    margin: 20px; 
+    font-size: 35px !important; 
+    font-weight: bold; 
+    color: white; 
+    margin: 30px;
+}
+
+.grafic-banner-content-max h2 {
+    font-size: 20px !important;
+    font-weight: bold;
+    padding: 15px;
+}
+
+.grafic-banner-content-max {
+    background: white;
+    margin: 10px;
+    padding: 20px;
+}
+
+.grafic-banner-min {
+    margin-top: 20px; 
+    border-radius: 20px !important;
+}
+
+#app h3{ 
+   margin: 10px;
+   padding: 15px; 
+   font-weight: bold;
+   font-size: 35px;
+}
+
+#app p{
+    margin: 10px;
+    padding: 15px; 
+    font-size: 15px;
+    font-weight: bold;
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../wwwroot/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+</head>
+<body>
+    <section id="ip" class="row container">
+       <br/><br/> 
+        <center>
+           <h1>Iniciar Sesión</h1>
+        </center>
+       <br/>
+        
+        <div class="progress" style="background: rgba(5, 5, 5, 0.2); display: none;">
+            <div class="indeterminate  light-blue darken-4"></div>
+        </div> 
+
+        <article class="col s5">
+                <div class="input-field">
+                    <input v-model="Email" id="email" type="email" class="validate" required>
+                    <label for="email">Email</label>
+                </div>
+
+                <div class="input-field">
+                    <input v-model="Password" id="contrasena" type="password" class="validate" required>
+                    <label for="contrasena">Contraseña</label>
+                </div>
+                
+                <label class="recuerdame">
+                    <input type="checkbox" class="filled-in" checked="checked" />
+                    <span>Recuerdame</span>
+                </label>
+
+                <a href="" style="float: right">¿Olvidaste tu contraseña?</a>
+
+                <button  v-on:click="InciarSesion" id="iniciarSesion" class="btn-sessionInit">Iniciar Sesión</button>
+            
+        </article>    
+
+        <article class="col s7">
+            <div class="container">
+                <h4>Sistema Softeam</h4>
+                <p>Sistema para el manejo de cuentas por pagar, desarrollado por la compania Softeam. El uso del sistema es solo academico, para usos comerciales llamar al siguiente numero 809-236-5908 (Nota: Preguntar por papolo)</p>
+            </div>
+        </article>
+
+        <article class="col s12">
+            <p class="footer">
+                * Al iniciar tu sesión, aceptas nuestros Términos de Uso y reconoces que leíste nuestra Política de Privacidad. 
+            </p>
+        </article>
+    </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        var url = 'http://prjcuentasxcobrar20190311015225.azurewebsites.net/api/Account';
+
+        var app = new Vue({
+            el: '#ip',
+            data: {
+                Email: '',
+                Password: ''
+            },
+            methods: {
+                InciarSesion: function (){
+                    this.Load(true);
+                    if(this.Email === "" || this.Password === ""){
+                        M.toast({html: `Todos los campos son requeridos`, classes: 'rounded red darken-2'});
+                        this.Load(false);
+                    }else{
+                        this.disableControles("iniciarSesion", true);
+                        axios.post(url, {
+                                Email: this.Email,
+                                Password: this.Password
+                            }).then(response => {
+                                if (typeof(Storage) !== "undefined") {
+                                    if(response.data.token != null){
+                                        localStorage.setItem("token", response.data.token);
+                                        localStorage.setItem("user", response.data.user.email);
+                                        window.location="../Mantenimientos/Home/Index.html";
+                                    }else{
+                                        M.toast({html: `Ocurrio un error`, classes: 'rounded red darken-2'});
+                                        this.Load(false);
+                                        this.disableControles("iniciarSesion", false);
+                                    }
+                                } else {
+                                    M.toast({html: `Utilice otro navegador`, classes: 'rounded red darken-2'});
+                                }
+                            })
+                            .catch(error => {
+                                M.toast({html: `Usuario no encontrado`, classes: 'rounded red darken-2'});
+                                this.Load(false);
+                                this.disableControles("iniciarSesion", false);
+                            });
+                     }
+                },
+                Load: function(active){
+                        if(active){
+                            $(".progress").css({'display': 'block'});
+                        }else{
+                            $(".progress").css({'display': 'none'});
+                        }
+                    },
+                    activeNav: function () {
+                        $('.sidenav').sidenav();
+                        $('.tabs').tabs();
+                    },
+                    disableControles: function(Id,active){
+                        if(active){
+                            $(`#${Id}`).prop('disabled', true);
+                        }else{
+                            $(`#${Id}`).prop('disabled', false);
+                        }
+                    }
+                }
+            });
+    </script>
+</body>
+</html>
